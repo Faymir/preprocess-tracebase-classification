@@ -17,7 +17,7 @@ def flatten_data(data_):
     if len(temp) > 0:
         dest.append(np.array(temp))
         max = (len(temp)) if len(temp) > max else max
-    print(len(dest))
+    # print(len(dest))
     return dest, max
 
 def get_statictics(data_):

@@ -25,7 +25,7 @@ def flatten_data(data_):
         temp.append(appareil)
         dest.append(temp)
         max = (len(temp)) if len(temp) > max else max
-    print(len(dest))
+    # print(len(dest))
     return dest, max
 
 

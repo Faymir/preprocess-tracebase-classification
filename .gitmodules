@@ -1,0 +1,3 @@
+[submodule "tracebase"]
+	path = tracebase
+	url = https://github.com/areinhardt/tracebase.git

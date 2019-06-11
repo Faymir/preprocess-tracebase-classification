@@ -1,15 +1,18 @@
 import os
+import sys
 
+size_per_device = int(sys.argv[1])
 path = './preprocessed/new'
 output = open('./training/test_stats1.csv', "w")
 output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
 for file in os.listdir(path):
     current = os.path.join(path, file)
-    if os.path.isfile(current):
+    if os.path.isfile(current) and current!="./preprocessed/new/README.md":
+        print(current)
         data = open(current).readlines()
-        a = 500
+        a = size_per_device
         for line in data:
-            if a <= 0 :
+            if a <= 0:
                 break
             if line != "moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n":
                 output.write(line)
