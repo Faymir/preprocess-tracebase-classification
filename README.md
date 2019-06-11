@@ -1,4 +1,4 @@
-# House Power consumption detection algorithme 
+# House Power consumption detection algorithm 
 
 This repo contains scripts files that preprocess [tracebase](https://github.com/areinhardt/tracebase) data 
 and generate files that can be used in matlab for training classification algorithme for signal identification
