@@ -4,7 +4,8 @@ import numpy as np
 import scipy.stats as stats
 
 appareil = 'Refrigerator'
-data = open('./tracebase/incomplete/Refrigerator/dev_D3230E_2011.12.03.csv').readlines()
+data = open('./tracebase/incomplete/MicrowaveOven/dev_4BEA01_2011.12.11_cleaned_11.12.2011.csv').readlines()
+# data = open('./tracebase/incomplete/Refrigerator/dev_D3230E_2011.12.03.csv').readlines()
 # data = open('./tracebase/incomplete/Washingmachine/dev_B8198B_2011.12.11_cleaned_11.12.2011.csv').readlines()
 data = [line.split(" ")[1] for line in data]
 data = [[line.split(";")[0]] + [int(line.split(";")[1])] + [int(line.split(";")[2])]
@@ -30,6 +31,9 @@ def flatten_data(data):
             dest.append(temp)
             max = (len(temp)) if len(temp) > max else max
             temp, switch = [], False
+    if len(temp) > 0:
+        dest.append(np.array(temp))
+        max = (len(temp)) if len(temp) > max else max
     print(len(dest))
     return dest, max
 
@@ -43,12 +47,18 @@ def get_statictics(data_):
 
 dest, max = flatten_data(data)
 dest = [np.array(line) for line in dest if len(line) > 4]
-result = get_statictics(dest)
+result = np.array(get_statictics(dest))
+print(result)
+for i in range(6):
+    temp = result[:, i]
+    if len(temp) > 1:
+        result[:, i] = (temp - temp.mean()) / temp.var()
 
-output = open("./output/res_stats.csv", "w")
+output = open("./output/res_stats1.csv", "w")
 output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
 for line in result:
-    output.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%s\n" % ( line[0], line[1], line[2], line[3], line[4], line[5], line[6], appareil))
+    output.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%s\n" % (
+        line[0], line[1], line[2], line[3], line[4], line[5], line[6], appareil))
 output.close()
 print(max)
 

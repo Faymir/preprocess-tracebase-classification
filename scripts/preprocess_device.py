@@ -25,6 +25,15 @@ def get_statictics(data_):
         stats.kurtosis(np_array)] + [stats.hmean(np_array)]
             for np_array in data_]
 
+def normalize(data_):
+    for i in range(len(data_[0])):
+        temp = data_[:, i]
+        print(len(temp))
+        variance = temp.var()
+        if variance != 0:
+            data_[:, i] = (temp - temp.mean()) / variance
+    return data
+
 def print_data(data_, appareil_, output_):
     for line in data_:
         output_.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%s\n" % ( line[0], line[1], line[2], line[3], line[4], line[5], line[6], appareil_))
@@ -57,7 +66,10 @@ for file in os.listdir(path):
         # regroupement des donnees par signal recu)
         data, max = flatten_data(data)
         # extarction des statictiques
-        data = get_statictics(data)
+        data = np.array(get_statictics(data))
+        # print(data[0])
+        # normalize
+        data = normalize(data)
         # Affichage
         print_data(data, appareil, output)
 output.close()
