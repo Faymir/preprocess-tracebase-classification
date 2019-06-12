@@ -72,5 +72,5 @@ output.close()
 output2.close()
 output3 = open('./training/correspondance-id-labels.csv', 'w')
 for a in uniques:
-    output3.write(a + ' ')
+    output3.write(a.strip() + ' ')
 output3.close()
