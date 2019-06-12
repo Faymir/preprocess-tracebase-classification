@@ -20,7 +20,7 @@ path = './preprocessed/new'
 output = open('./training/training.csv', "w")
 r = []
 labels = []
-output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
+# output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
 for file in os.listdir(path):
     current = os.path.join(path, file)
     if os.path.isfile(current) and current != "./preprocessed/new/README.md":
@@ -47,8 +47,30 @@ for file in os.listdir(path):
             a = a - 1
 r = np.array(r)
 r = normalize(r)
+
+uniques = []
+for elem in labels:
+    if elem not in uniques:
+        uniques.append(elem)
+len_uniques = len(uniques)
+output2 = open('./training/id.csv', 'w')
 for i in range(len(r)):
     # output.write(join([str(value) for value in r[i]], sep=','))
     # output.write("%s" % labels[i])
-    output.write("%f,%f,%f,%f,%f,%f,%f,%s" % (r[i, 0], r[i, 1], r[i, 2], r[i, 3], r[i, 4], r[i, 5], r[i, 6], labels[i]))
+    output.write("%f,%f,%f,%f,%f,%f,%f\n" % (r[i, 0], r[i, 1], r[i, 2], r[i, 3], r[i, 4], r[i, 5], r[i, 6]))
+
+    for j in range(len_uniques):
+        if uniques[j] == labels[i]:
+            output2.write("1")
+        else:
+            output2.write("0")
+        if j < len_uniques - 1:
+            output2.write(",")
+        else:
+            output2.write("\n")
 output.close()
+output2.close()
+output3 = open('./training/correspondance-id-labels.csv', 'w')
+for a in uniques:
+    output3.write(a + ' ')
+output3.close()

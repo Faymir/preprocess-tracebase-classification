@@ -68,8 +68,6 @@ for file in os.listdir(path):
         # extarction des statictiques
         data = np.array(get_statictics(data))
         # print(data[0])
-        # normalize
-        # data = normalize(data)
         # Affichage
         print_data(data, appareil, output)
 output.close()
