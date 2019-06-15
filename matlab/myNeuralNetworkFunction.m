@@ -100,7 +100,7 @@ nmax = max(n,[],1);
 n = bsxfun(@minus,n,nmax);
 numerator = exp(n);
 denominator = sum(numerator,1);
-denominator(denominator == 0) = 1;
+denov   minator(denominator == 0) = 1;
 a = bsxfun(@rdivide,numerator,denominator);
 end
 function a = iSoftmaxApplyGPU(n)

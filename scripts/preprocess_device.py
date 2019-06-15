@@ -29,9 +29,9 @@ def normalize(data_):
     for i in range(len(data_[0])):
         temp = data_[:, i]
         print(len(temp))
-        variance = temp.var()
-        if variance != 0:
-            data_[:, i] = (temp - temp.mean()) / variance
+        ecartType = temp.std()
+        if ecartType != 0:
+            data_[:, i] = (temp - temp.mean()) / ecartType
     return data
 
 def print_data(data_, appareil_, output_):
@@ -45,9 +45,9 @@ appareil = sys.argv[1]
 # le seuil de valeures de puissance1 à partir duquel on garde les valeures
 seuil = int(sys.argv[2])
 # le dossier tracebase à utiliser
-path = './tracebase/incomplete/' + appareil
+path = './tracebase/complete/' + appareil
 # Le fichier de destination
-output = open('./preprocessed/new/' + appareil + '_stats.csv', "w")
+output = open('./preprocessed/test/' + appareil + '_stats.csv', "w")
 
 # Ecrire cette ligne  en début du fichier de sortie
 output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
@@ -55,6 +55,7 @@ output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,ap
 for file in os.listdir(path):
     current = os.path.join(path, file)
     if os.path.isfile(current):
+        print(current)
         # Ici j'ouvre un fichier du dossier à lire
         data = open(current).readlines()
         # Ici je divise en deux blocs (en fonction de l'espace) chaque lines et je garde uniquement le second bloc

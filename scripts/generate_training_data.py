@@ -9,15 +9,15 @@ def normalize(data_):
     for i in range(6):
         temp = data_[:, i]
         # print(len(temp))
-        variance = temp.var()
-        if variance != 0:
-            data_[:, i] = (temp - temp.mean()) / variance
+        ecartType = temp.std()
+        if ecartType != 0:
+            data_[:, i] = (temp - temp.mean()) / ecartType
     return data_
 
 
 size_per_device = int(sys.argv[1])
-path = './preprocessed/new'
-output = open('./training/training.csv', "w")
+path = './preprocessed/test'
+output = open('./training/test/training.csv', "w")
 r = []
 labels = []
 # output.write("moyenne,mediane,ecartType,variance,symetrie,kurtosis,harmonique,appareil\n")
@@ -53,7 +53,7 @@ for elem in labels:
     if elem not in uniques:
         uniques.append(elem)
 len_uniques = len(uniques)
-output2 = open('./training/id.csv', 'w')
+output2 = open('./training/test/id.csv', 'w')
 for i in range(len(r)):
     output.write("%f,%f,%f,%f,%f,%f,%f\n" % (r[i, 0], r[i, 1], r[i, 2], r[i, 3], r[i, 4], r[i, 5], r[i, 6]))
 
@@ -68,7 +68,7 @@ for i in range(len(r)):
             output2.write("\n")
 output.close()
 output2.close()
-output3 = open('./training/correspondance-id-labels.csv', 'w')
+output3 = open('./training/test/correspondance-id-labels.csv', 'w')
 for a in uniques:
     output3.write(a.strip() + ' ')
 output3.close()
