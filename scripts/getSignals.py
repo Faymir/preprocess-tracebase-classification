@@ -1,5 +1,5 @@
 # Pour l'utiliser pour par exemple extraire les données du freezer  il faut taper cette commande dans un terminal:
-# python extractFromFolder.py Printer 0
+# python getSignals.py appareil
 import os
 import sys
 
