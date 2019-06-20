@@ -31,12 +31,7 @@ def flatten_data(data_):
 
 def print_data(data, output):
     for line in data:
-        n = len(line)
-        for i in range(n):
-            if i < n - 1:
-                output.write(str(line[i]) + ',')
-            else:
-                output.write(str(line[i]) + '\n')
+        output.write("%s,%s,%s\n" % (line[0], line[1], line[-1]))
 
 
 # Le nom du dossier (tracebase) de l'apppareil
@@ -49,7 +44,7 @@ path = './tracebase/incomplete/' + appareil
 output = open('./preprocessed/' + appareil + '.csv', "w")
 
 # Ecrire cette ligne  en début du fichier de sortie
-output.write("Timestamp,Puissance1s,Puissance2s,Appareil\n")
+output.write("Debut,Fin,Appareil\n")
 # Parcourir tout les fichiers d'un dossier liés à un appareil précis
 for file in os.listdir(path):
     current = os.path.join(path, file)
@@ -58,15 +53,15 @@ for file in os.listdir(path):
         data = open(current).readlines()
         # Ici je divise en deux blocs (en fonction de l'espace) chaque lines et je garde uniquement le second bloc
         # Exemple: "10/12/2011 01:00:01;120;118"   => ["10/12/2011", "01:00:01;120;118"] => ["01:00:01;120;118", ...]
-        data = [line.split(" ")[1] for line in data]
+        # data = [(line.split("  ")[0] + "-" + line.split(" ")[1]) for line in data]
         # Là je divise en fonction des points virgules et je converti les deux derniers blocs en entiers
         # Exemple: ["01:00:01;120;118", ...] => [["01:00:01", 120, 118], [..], ...]
         data = [[line.split(";")[0]] + [int(line.split(";")[1])] + [int(line.split(";")[2])] for line in data if
                 int(line.split(";")[1]) >= seuil]
         # Au niveau de la ligne ci dessous je converti l'heure en timestamp
         # [["01:00:01", 120, 118], [..], ...] => [[3600*1+60*0+1, 120, 118], [..], ...] => [[3601, 120, 118], [..], ...]
-        data = [[int(line[0].split(":")[0]) * 3600 + int(line[0].split(":")[1]) * 60 + int(line[0].split(":")[2])] + [
-            line[1]] + [line[2]] for line in data]
+        # data = [[int(line[0].split(":")[0]) * 3600 + int(line[0].split(":")[1]) * 60 + int(line[0].split(":")[2])] + [
+        #     line[1]] + [line[2]] for line in data]
         # Là j'ordonne les données en fonction de leurs puissances mais c'est facultatif
         # data = sorted(data, reverse=True)
         dest, max = flatten_data(data)
